@@ -1,7 +1,7 @@
 /* 
    File: prepared_queries.sql
    Project: SKS National Bank (Final Project) =D
-   Group Members: <Pedro Molina, Carol Iantas and Vivekbhai Pateli>
+   Group Members: <Pedro Molina, Carol Iantas and Vivekbhai Patel>
 */
 
 /* 

@@ -503,7 +503,7 @@ BEGIN
     SELECT 1 
     FROM dbo.account a
     JOIN dbo.account_type at ON at.account_type_id = a.account_type_id
-    WHERE a.account_id = @AccountId AND at.code = 'CHK'
+    WHERE a.account_id = @AccountId AND at.code LIKE 'CHK%'
   )
   BEGIN
     THROW 51108, 'Account is not a chequing account.', 1;

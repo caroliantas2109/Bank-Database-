@@ -57,7 +57,10 @@ VALUES ('Peter', 'Jack');
 
 UPDATE customer
 SET first_name = 'Elon Reeve'
-WHERE customer_id = 17;
+WHERE customer_id = (SELECT TOP 1 customer_id FROM customer ORDER BY customer_id desc);
+
+SELECT TOP 2 * FROM audit ORDER BY audit_id DESC
+SELECT TOP 1 * FROM customer ORDER BY customer_id DESC
 
 
 --2. Account Trigger
@@ -110,10 +113,14 @@ GO
 --Test
 INSERT INTO account (account_type_id, balance, last_access_date)
 VALUES (12, 30000, GETDATE());
-SELECT * FROM audit;
 
+UPDATE account
 SET balance = balance + 1000
-WHERE account_type_id = 12;
+WHERE account_id = (SELECT TOP 1 account_id FROM account ORDER BY account_id desc);
+
+SELECT TOP 2 * FROM audit ORDER BY audit_id DESC
+SELECT TOP 1 * FROM account ORDER BY account_id DESC
+
 
 
 --3. Account_type Trigger
@@ -167,6 +174,10 @@ VALUES ('SVG', 'Savings Account');
 
 UPDATE account_type
 SET description = 'Updated Savings Account'
-WHERE account_type_id = 16;
+WHERE account_type_id = (SELECT TOP 1 account_type_id FROM account_type ORDER BY account_type_id desc);
+
+SELECT TOP 2 * FROM audit ORDER BY audit_id DESC
+SELECT TOP 1 * FROM account_type ORDER BY account_type_id DESC
+
 
 

@@ -12,13 +12,25 @@ GO
    ========================================================= */
 
 -- Add JSON column only if it doesn't exist yet
-ALTER TABLE dbo.customer
-    ADD profile_json NVARCHAR(MAX) NULL;
+IF COL_LENGTH('dbo.customer', 'profile_json') IS NULL
+BEGIN
+    ALTER TABLE dbo.customer
+        ADD profile_json NVARCHAR(MAX) NULL;
+END
+GO
 
 -- Enforce that data stored in profile_json is valid JSON
-ALTER TABLE dbo.customer WITH CHECK
-    ADD CONSTRAINT CK_customer_profile_json_is_valid
-    CHECK (profile_json IS NULL OR ISJSON(profile_json) = 1);
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.check_constraints
+    WHERE name = 'CK_customer_profile_json_is_valid'
+)
+BEGIN
+    ALTER TABLE dbo.customer WITH CHECK
+        ADD CONSTRAINT CK_customer_profile_json_is_valid
+        CHECK (profile_json IS NULL OR ISJSON(profile_json) = 1);
+END
+GO
 
 /* =========================================================*/
 
